@@ -1,0 +1,815 @@
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=DM+Sans:wght@300;400;500&display=swap');
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+--g:#D4AF37;--g2:#7B5A00;--bg:#050505;--bg2:#0d0d0d;--bg3:#141414;
+--glass:rgba(255,255,255,0.04);--glassb:rgba(255,255,255,0.08);
+--t1:#F5F0E8;--t2:#9A9080;--t3:#5A5248;
+--red:#E24B4A;--grn:#00D26A;--blue:#378ADD;
+}
+body{background:var(--bg);color:var(--t1);font-family:'DM Sans',sans-serif;min-height:100vh;overflow-x:hidden}
+h1,h2,h3,.serif{font-family:'Cormorant Garamond',serif}
+.screen{display:none;min-height:100vh;padding:0}
+.screen.active{display:flex;flex-direction:column}
+
+/* LANDING */
+#s-land{background:radial-gradient(circle at 50% 30%,rgba(212,175,55,.18),transparent 65%),var(--bg);align-items:center;justify-content:center;gap:2rem;text-align:center;padding:3rem 2rem}
+.logo{font-size:clamp(2.4rem,6vw,4rem);font-weight:700;letter-spacing:.05em;background:linear-gradient(135deg,#D4AF37,#FFF8DC,#B8941C);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.tagline{font-size:1rem;color:var(--t2);letter-spacing:.15em;text-transform:uppercase;margin-top:-.5rem}
+.city-silhouette{width:100%;max-width:500px;height:80px;opacity:.25;margin:1rem 0}
+.btn-primary{background:linear-gradient(135deg,#D4AF37,#9A7200);border:none;color:#050505;font-family:'DM Sans',sans-serif;font-weight:500;font-size:1rem;padding:.75rem 2.5rem;border-radius:2rem;cursor:pointer;letter-spacing:.05em;transition:transform .15s,box-shadow .15s}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(212,175,55,.35)}
+.btn-ghost{background:transparent;border:1px solid var(--glassb);color:var(--t2);font-family:'DM Sans',sans-serif;font-size:.875rem;padding:.6rem 1.5rem;border-radius:2rem;cursor:pointer;transition:all .2s}
+.btn-ghost:hover{border-color:var(--g);color:var(--g)}
+
+/* CHARACTER CREATION */
+#s-create{background:radial-gradient(circle at 80% 20%,rgba(212,175,55,.08),transparent 50%),var(--bg);padding:2rem}
+.cc-title{font-size:1.8rem;font-weight:700;margin-bottom:.25rem}
+.cc-sub{color:var(--t2);font-size:.875rem;margin-bottom:2rem}
+.cc-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;max-width:520px}
+.field-label{font-size:.75rem;letter-spacing:.1em;text-transform:uppercase;color:var(--t2);margin-bottom:.4rem}
+.field-input{background:var(--glass);border:1px solid var(--glassb);color:var(--t1);font-family:'DM Sans',sans-serif;font-size:.9rem;padding:.6rem .9rem;border-radius:.5rem;width:100%;outline:none;transition:border .2s}
+.field-input:focus{border-color:var(--g)}
+.trait-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:.5rem;margin-top:.25rem}
+.trait-card{background:var(--glass);border:1px solid var(--glassb);border-radius:.5rem;padding:.6rem .4rem;text-align:center;cursor:pointer;transition:all .2s;font-size:.75rem;color:var(--t2)}
+.trait-card:hover,.trait-card.sel{border-color:var(--g);color:var(--g);background:rgba(212,175,55,.08)}
+.trait-icon{font-size:1.2rem;margin-bottom:.2rem}
+.trait-name{font-size:.65rem;font-weight:500;letter-spacing:.05em}
+.country-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem;margin-top:.25rem}
+.country-btn{background:var(--glass);border:1px solid var(--glassb);border-radius:.5rem;padding:.5rem;text-align:center;cursor:pointer;font-size:.78rem;color:var(--t2);transition:all .2s}
+.country-btn.sel,.country-btn:hover{border-color:var(--g);color:var(--g);background:rgba(212,175,55,.08)}
+
+/* GAME HUD */
+#s-game{flex-direction:column;background:var(--bg)}
+.hud{background:rgba(5,5,5,.95);border-bottom:1px solid var(--glassb);padding:.6rem 1rem;display:flex;align-items:center;gap:1rem;flex-wrap:wrap}
+.hud-name{font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:600;color:var(--g);flex:1}
+.hud-stat{display:flex;flex-direction:column;align-items:center;min-width:44px}
+.hud-stat-v{font-size:.85rem;font-weight:500}
+.hud-stat-l{font-size:.6rem;color:var(--t2);text-transform:uppercase;letter-spacing:.05em}
+.hud-wealth{font-size:1rem;font-weight:600;color:var(--grn);margin-left:auto}
+.hud-age{font-size:.8rem;color:var(--t2)}
+
+.bar-wrap{height:4px;background:rgba(255,255,255,.08);border-radius:2px;width:36px;margin-top:2px}
+.bar-fill{height:100%;border-radius:2px;transition:width .4s}
+.bar-health{background:var(--grn)}
+.bar-happy{background:var(--g)}
+.bar-energy{background:var(--blue)}
+
+/* TABS */
+.tabs{display:flex;border-bottom:1px solid var(--glassb);background:var(--bg2);overflow-x:auto}
+.tab{padding:.7rem 1rem;font-size:.78rem;color:var(--t2);cursor:pointer;border-bottom:2px solid transparent;transition:all .2s;white-space:nowrap;letter-spacing:.05em;text-transform:uppercase}
+.tab.active,.tab:hover{color:var(--g);border-bottom-color:var(--g)}
+.tab-content{display:none;flex:1;overflow-y:auto;padding:1rem}
+.tab-content.active{display:block}
+
+/* DASHBOARD TAB */
+.dash-grid{display:grid;grid-template-columns:1fr 1fr;gap:.75rem;margin-bottom:1rem}
+.dash-card{background:var(--glass);border:1px solid var(--glassb);border-radius:.75rem;padding:.85rem}
+.dc-label{font-size:.7rem;text-transform:uppercase;letter-spacing:.08em;color:var(--t2);margin-bottom:.35rem}
+.dc-value{font-size:1.3rem;font-weight:600}
+.dc-value.gold{color:var(--g)}
+.dc-value.green{color:var(--grn)}
+.dc-sub{font-size:.72rem;color:var(--t2);margin-top:.15rem}
+.wealth-graph{background:var(--glass);border:1px solid var(--glassb);border-radius:.75rem;padding:.85rem;margin-bottom:.75rem}
+.wg-title{font-size:.7rem;text-transform:uppercase;letter-spacing:.08em;color:var(--t2);margin-bottom:.5rem}
+canvas#wealthChart{width:100%!important;height:80px!important}
+.event-feed{background:var(--glass);border:1px solid var(--glassb);border-radius:.75rem;padding:.85rem}
+.ef-title{font-size:.7rem;text-transform:uppercase;letter-spacing:.08em;color:var(--t2);margin-bottom:.6rem}
+.ef-item{border-left:2px solid var(--glassb);padding-left:.6rem;margin-bottom:.5rem;font-size:.8rem;color:var(--t2)}
+.ef-item span{color:var(--t1);display:block;font-size:.78rem;margin-bottom:.1rem}
+
+/* CAREER TAB */
+.career-header{background:var(--glass);border:1px solid var(--glassb);border-radius:.75rem;padding:.85rem;margin-bottom:.75rem}
+.career-title{font-size:1.1rem;font-weight:600;color:var(--g)}
+.career-sub{font-size:.78rem;color:var(--t2);margin-top:.2rem}
+.career-xp-bar{height:5px;background:rgba(255,255,255,.08);border-radius:3px;margin-top:.6rem}
+.career-xp-fill{height:100%;background:linear-gradient(90deg,#D4AF37,#9A7200);border-radius:3px;transition:width .5s}
+.actions-title{font-size:.7rem;text-transform:uppercase;letter-spacing:.08em;color:var(--t2);margin:.85rem 0 .5rem}
+.action-btn{display:flex;align-items:center;gap:.6rem;background:var(--glass);border:1px solid var(--glassb);border-radius:.6rem;padding:.65rem .85rem;width:100%;margin-bottom:.4rem;cursor:pointer;transition:all .2s;font-size:.82rem;color:var(--t1);font-family:'DM Sans',sans-serif}
+.action-btn:hover{border-color:var(--g);background:rgba(212,175,55,.06)}
+.action-icon{font-size:1rem;width:20px;text-align:center}
+.action-cost{margin-left:auto;font-size:.7rem;color:var(--t2)}
+.action-desc{font-size:.7rem;color:var(--t2);display:block;margin-top:.1rem}
+
+/* INVESTMENTS TAB */
+.inv-grid{display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin-bottom:.75rem}
+.inv-card{background:var(--glass);border:1px solid var(--glassb);border-radius:.6rem;padding:.75rem;cursor:pointer;transition:all .2s}
+.inv-card:hover{border-color:var(--g);background:rgba(212,175,55,.04)}
+.inv-name{font-size:.85rem;font-weight:500}
+.inv-price{font-size:.78rem;color:var(--t2);margin-top:.2rem}
+.inv-change{font-size:.72rem;margin-top:.15rem;font-weight:500}
+.up{color:var(--grn)}.dn{color:var(--red)}
+.inv-own{font-size:.65rem;color:var(--g);margin-top:.15rem}
+
+/* EVENTS */
+.event-modal{background:var(--bg2);border:1px solid var(--g);border-radius:1rem;padding:1.2rem;margin-bottom:.75rem;position:relative;overflow:hidden}
+.event-modal::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--g),transparent)}
+.ev-tag{font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;color:var(--g);margin-bottom:.4rem}
+.ev-title{font-size:1.1rem;font-weight:700;font-family:'Cormorant Garamond',serif;margin-bottom:.4rem}
+.ev-desc{font-size:.82rem;color:var(--t2);line-height:1.5;margin-bottom:.85rem}
+.ev-choices{display:flex;flex-direction:column;gap:.4rem}
+.ev-choice{background:var(--glass);border:1px solid var(--glassb);border-radius:.5rem;padding:.6rem .85rem;cursor:pointer;font-size:.8rem;color:var(--t1);font-family:'DM Sans',sans-serif;text-align:left;transition:all .2s}
+.ev-choice:hover{border-color:var(--g);background:rgba(212,175,55,.08);color:var(--g)}
+.ev-placeholder{text-align:center;padding:2rem 1rem;color:var(--t3);font-size:.85rem}
+
+/* ADVANCE YEAR */
+.adv-btn{width:100%;background:linear-gradient(135deg,#D4AF37,#9A7200);border:none;color:#050505;font-family:'DM Sans',sans-serif;font-weight:600;font-size:.9rem;padding:.85rem;border-radius:.75rem;cursor:pointer;margin-top:.5rem;letter-spacing:.06em;transition:transform .15s,opacity .15s}
+.adv-btn:hover{transform:translateY(-1px);opacity:.92}
+.adv-btn:active{transform:scale(.98)}
+
+/* RESULT TOAST */
+.toast{position:fixed;bottom:1.5rem;left:50%;transform:translateX(-50%) translateY(100px);background:rgba(5,5,5,.95);border:1px solid var(--g);border-radius:.75rem;padding:.75rem 1.25rem;font-size:.82rem;color:var(--t1);z-index:999;transition:transform .35s;pointer-events:none;min-width:200px;text-align:center}
+.toast.show{transform:translateX(-50%) translateY(0)}
+.toast-amount{color:var(--grn);font-weight:600}
+.toast-neg{color:var(--red)}
+
+/* ACHIEVEMENTS */
+.ach-popup{position:fixed;top:1rem;right:1rem;background:rgba(5,5,5,.97);border:1px solid var(--g);border-radius:.75rem;padding:.75rem 1rem;z-index:1000;min-width:180px;transform:translateX(120%);transition:transform .4s;max-width:220px}
+.ach-popup.show{transform:translateX(0)}
+.ach-title{font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;color:var(--g);margin-bottom:.2rem}
+.ach-name{font-size:.88rem;font-weight:600}
+.ach-sub{font-size:.72rem;color:var(--t2)}
+
+/* ASSETS TAB */
+.asset-card{display:flex;align-items:center;gap:.75rem;background:var(--glass);border:1px solid var(--glassb);border-radius:.6rem;padding:.75rem;margin-bottom:.5rem;cursor:pointer;transition:all .2s}
+.asset-card:hover{border-color:var(--g)}
+.asset-emoji{font-size:1.5rem;flex-shrink:0}
+.asset-info{flex:1}
+.asset-name{font-size:.85rem;font-weight:500}
+.asset-price{font-size:.75rem;color:var(--t2)}
+.asset-buy{background:rgba(212,175,55,.12);border:1px solid rgba(212,175,55,.3);color:var(--g);border-radius:.4rem;padding:.3rem .65rem;font-size:.72rem;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .2s}
+.asset-buy:hover{background:rgba(212,175,55,.25)}
+.asset-owned{font-size:.7rem;color:var(--grn);margin-top:.15rem}
+
+#s-land svg.city{display:block}
+</style>
+
+<div id="s-land" class="screen active">
+  <h2 class="sr-only">Billionaire Life RPG — start screen</h2>
+  <svg class="city" viewBox="0 0 400 80" xmlns="http://www.w3.org/2000/svg" fill="white">
+    <rect x="10" y="50" width="18" height="30"/><rect x="14" y="40" width="10" height="12"/>
+    <rect x="35" y="35" width="22" height="45"/><rect x="40" y="25" width="12" height="12"/>
+    <rect x="65" y="20" width="28" height="60"/><rect x="70" y="10" width="6" height="12"/><rect x="80" y="15" width="6" height="7"/>
+    <rect x="100" y="40" width="16" height="40"/><rect x="103" y="32" width="10" height="10"/>
+    <rect x="122" y="15" width="32" height="65"/><rect x="128" y="5" width="8" height="12"/>
+    <rect x="161" y="30" width="20" height="50"/>
+    <rect x="188" y="10" width="36" height="70"/><rect x="196" y="2" width="6" height="10"/>
+    <rect x="230" y="25" width="24" height="55"/>
+    <rect x="260" y="38" width="18" height="42"/><rect x="263" y="30" width="12" height="10"/>
+    <rect x="284" y="18" width="30" height="62"/><rect x="290" y="8" width="8" height="12"/>
+    <rect x="320" y="42" width="16" height="38"/>
+    <rect x="342" y="28" width="26" height="52"/><rect x="348" y="18" width="8" height="12"/>
+    <rect x="374" y="45" width="20" height="35"/>
+  </svg>
+  <div class="logo">BILLIONAIRE</div>
+  <div class="tagline">Life Simulation RPG</div>
+  <p style="font-size:.85rem;color:var(--t2);max-width:300px;line-height:1.6;text-align:center">Start with nothing. Make every decision count. Reach the top.</p>
+  <button class="btn-primary" onclick="showScreen('s-create')">Begin Your Journey</button>
+  <button class="btn-ghost" style="margin-top:.5rem" onclick="quickStart()">Quick Start (Demo)</button>
+</div>
+
+<div id="s-create" class="screen" style="padding:1.5rem;background:radial-gradient(circle at 70% 10%,rgba(212,175,55,.07),transparent 50%),var(--bg)">
+  <h2 class="sr-only">Character creation</h2>
+  <div class="cc-title">Create Your Character</div>
+  <div class="cc-sub">Shape your destiny from day one.</div>
+
+  <div style="margin-bottom:1rem">
+    <div class="field-label">Your Name</div>
+    <input class="field-input" id="inp-name" placeholder="Enter your name" style="max-width:280px" value="Alex Morgan">
+  </div>
+
+  <div class="cc-grid" style="margin-bottom:1rem">
+    <div>
+      <div class="field-label">Age at Start</div>
+      <select class="field-input" id="inp-age">
+        <option value="18">18 — Fresh Graduate</option>
+        <option value="22">22 — College Grad</option>
+        <option value="25">25 — Young Pro</option>
+      </select>
+    </div>
+    <div>
+      <div class="field-label">Gender</div>
+      <select class="field-input" id="inp-gender">
+        <option>Male</option><option>Female</option><option>Non-binary</option>
+      </select>
+    </div>
+  </div>
+
+  <div style="margin-bottom:1rem">
+    <div class="field-label">Starting Country</div>
+    <div class="country-grid">
+      <div class="country-btn sel" onclick="selCountry(this,'USA')">🇺🇸 USA</div>
+      <div class="country-btn" onclick="selCountry(this,'UK')">🇬🇧 UK</div>
+      <div class="country-btn" onclick="selCountry(this,'Germany')">🇩🇪 Germany</div>
+      <div class="country-btn" onclick="selCountry(this,'Singapore')">🇸🇬 Singapore</div>
+      <div class="country-btn" onclick="selCountry(this,'Nigeria')">🇳🇬 Nigeria</div>
+      <div class="country-btn" onclick="selCountry(this,'Japan')">🇯🇵 Japan</div>
+    </div>
+  </div>
+
+  <div style="margin-bottom:1.5rem">
+    <div class="field-label">Starting Trait</div>
+    <div class="trait-grid">
+      <div class="trait-card sel" onclick="selTrait(this,'genius')"><div class="trait-icon">🧠</div><div class="trait-name">Genius</div></div>
+      <div class="trait-card" onclick="selTrait(this,'charismatic')"><div class="trait-icon">✨</div><div class="trait-name">Charismatic</div></div>
+      <div class="trait-card" onclick="selTrait(this,'risk_taker')"><div class="trait-icon">🎲</div><div class="trait-name">Risk Taker</div></div>
+      <div class="trait-card" onclick="selTrait(this,'athlete')"><div class="trait-icon">⚡</div><div class="trait-name">Athletic</div></div>
+      <div class="trait-card" onclick="selTrait(this,'heir')"><div class="trait-icon">👑</div><div class="trait-name">Wealthy Family</div></div>
+    </div>
+  </div>
+
+  <button class="btn-primary" onclick="startGame()">Start Life →</button>
+  <button class="btn-ghost" style="margin-top:.6rem;display:block" onclick="showScreen('s-land')">← Back</button>
+</div>
+
+<div id="s-game" class="screen">
+  <h2 class="sr-only">Main game</h2>
+  <div class="hud">
+    <div class="hud-name" id="hud-name">Alex Morgan</div>
+    <div class="hud-stat">
+      <div class="hud-stat-v" id="hud-h">100</div>
+      <div class="bar-wrap"><div class="bar-fill bar-health" id="bar-h" style="width:100%"></div></div>
+      <div class="hud-stat-l">❤️</div>
+    </div>
+    <div class="hud-stat">
+      <div class="hud-stat-v" id="hud-hap">80</div>
+      <div class="bar-wrap"><div class="bar-fill bar-happy" id="bar-hap" style="width:80%"></div></div>
+      <div class="hud-stat-l">😊</div>
+    </div>
+    <div class="hud-stat">
+      <div class="hud-stat-v" id="hud-e">90</div>
+      <div class="bar-wrap"><div class="bar-fill bar-energy" id="bar-e" style="width:90%"></div></div>
+      <div class="hud-stat-l">⚡</div>
+    </div>
+    <div class="hud-stat">
+      <div class="hud-stat-v" id="hud-iq">65</div>
+      <div class="hud-stat-l">IQ</div>
+    </div>
+    <div class="hud-stat">
+      <div class="hud-stat-v" id="hud-rep">10</div>
+      <div class="hud-stat-l">REP</div>
+    </div>
+    <div class="hud-wealth" id="hud-wealth">$2,500</div>
+    <div class="hud-age" id="hud-age">Age 18</div>
+  </div>
+
+  <div class="tabs">
+    <div class="tab active" onclick="switchTab('dash',this)">Dashboard</div>
+    <div class="tab" onclick="switchTab('career',this)">Career</div>
+    <div class="tab" onclick="switchTab('invest',this)">Invest</div>
+    <div class="tab" onclick="switchTab('assets',this)">Luxury</div>
+    <div class="tab" onclick="switchTab('events',this)">Events</div>
+  </div>
+
+  <div id="tab-dash" class="tab-content active">
+    <div class="dash-grid">
+      <div class="dash-card">
+        <div class="dc-label">Net Worth</div>
+        <div class="dc-value green" id="d-wealth">$2,500</div>
+        <div class="dc-sub" id="d-tier">Broke but hopeful</div>
+      </div>
+      <div class="dash-card">
+        <div class="dc-label">Annual Income</div>
+        <div class="dc-value gold" id="d-income">$28,000</div>
+        <div class="dc-sub" id="d-job">Junior Analyst</div>
+      </div>
+      <div class="dash-card">
+        <div class="dc-label">Reputation</div>
+        <div class="dc-value gold" id="d-rep">10</div>
+        <div class="dc-sub" id="d-rep-tier">Unknown</div>
+      </div>
+      <div class="dash-card">
+        <div class="dc-label">Current Year</div>
+        <div class="dc-value" id="d-year">2024</div>
+        <div class="dc-sub" id="d-age-label">Age 18</div>
+      </div>
+    </div>
+    <div class="wealth-graph">
+      <div class="wg-title">Net Worth History</div>
+      <canvas id="wealthChart"></canvas>
+    </div>
+    <div class="event-feed">
+      <div class="ef-title">Life Log</div>
+      <div id="life-log"></div>
+    </div>
+    <button class="adv-btn" onclick="advanceYear()">⏩ Advance Year</button>
+  </div>
+
+  <div id="tab-career" class="tab-content">
+    <div class="career-header">
+      <div class="career-title" id="c-title">Junior Analyst</div>
+      <div class="career-sub" id="c-company">SmallCorp Inc. · Entry Level</div>
+      <div style="font-size:.78rem;color:var(--t2);margin-top:.4rem">XP to next level</div>
+      <div class="career-xp-bar"><div class="career-xp-fill" id="c-xp-fill" style="width:20%"></div></div>
+      <div style="font-size:.7rem;color:var(--t2);margin-top:.25rem" id="c-xp-label">200 / 1000 XP</div>
+    </div>
+    <div class="actions-title">Actions this year</div>
+    <button class="action-btn" onclick="doAction('work_extra')">
+      <span class="action-icon">💼</span>
+      <span style="flex:1"><span style="display:block;font-weight:500">Work Extra Hours</span><span class="action-desc">+XP, +Income, -Energy</span></span>
+      <span class="action-cost">-15 Energy</span>
+    </button>
+    <button class="action-btn" onclick="doAction('network')">
+      <span class="action-icon">🤝</span>
+      <span style="flex:1"><span style="display:block;font-weight:500">Network & Socialize</span><span class="action-desc">+Rep, +Charisma, chance of opportunity</span></span>
+      <span class="action-cost">-10 Energy</span>
+    </button>
+    <button class="action-btn" onclick="doAction('study')">
+      <span class="action-icon">📚</span>
+      <span style="flex:1"><span style="display:block;font-weight:500">Take a Course</span><span class="action-desc">+Intelligence, +XP</span></span>
+      <span class="action-cost">-$500</span>
+    </button>
+    <button class="action-btn" onclick="doAction('startup')">
+      <span class="action-icon">🚀</span>
+      <span style="flex:1"><span style="display:block;font-weight:500">Launch Side Project</span><span class="action-desc">High risk/reward. Chance of big payoff.</span></span>
+      <span class="action-cost">-$2,000</span>
+    </button>
+    <button class="action-btn" onclick="doAction('invest_self')">
+      <span class="action-icon">🧘</span>
+      <span style="flex:1"><span style="display:block;font-weight:500">Health & Wellness</span><span class="action-desc">+Health, +Happiness</span></span>
+      <span class="action-cost">-$300</span>
+    </button>
+    <button class="adv-btn" onclick="advanceYear()" style="margin-top:1rem">⏩ Advance Year</button>
+  </div>
+
+  <div id="tab-invest" class="tab-content">
+    <div style="font-size:.7rem;text-transform:uppercase;letter-spacing:.08em;color:var(--t2);margin-bottom:.6rem">Stock Market</div>
+    <div class="inv-grid" id="stocks-grid"></div>
+    <div style="font-size:.7rem;text-transform:uppercase;letter-spacing:.08em;color:var(--t2);margin:.75rem 0 .5rem">Your Portfolio</div>
+    <div id="portfolio-list" style="font-size:.82rem;color:var(--t2)">No holdings yet. Buy stocks above.</div>
+    <button class="adv-btn" onclick="advanceYear()" style="margin-top:1rem">⏩ Advance Year</button>
+  </div>
+
+  <div id="tab-assets" class="tab-content">
+    <div style="font-size:.7rem;text-transform:uppercase;letter-spacing:.08em;color:var(--t2);margin-bottom:.6rem">Luxury Assets</div>
+    <div id="assets-list"></div>
+    <button class="adv-btn" onclick="advanceYear()" style="margin-top:1rem">⏩ Advance Year</button>
+  </div>
+
+  <div id="tab-events" class="tab-content">
+    <div style="font-size:.7rem;text-transform:uppercase;letter-spacing:.08em;color:var(--t2);margin-bottom:.6rem">Current Event</div>
+    <div id="event-panel"></div>
+    <button class="adv-btn" onclick="advanceYear()" style="margin-top:.75rem">⏩ Advance Year</button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+<div class="ach-popup" id="ach-popup">
+  <div class="ach-title">🏆 Achievement Unlocked</div>
+  <div class="ach-name" id="ach-name"></div>
+  <div class="ach-sub" id="ach-sub"></div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script>
+const G={
+  player:{name:'Alex Morgan',age:18,health:100,happiness:80,energy:90,intelligence:65,charisma:50,reputation:10,wealth:2500,income:28000,trait:'genius',country:'USA',xp:200,xpNeeded:1000,jobLevel:0,year:2024},
+  wealthHistory:[2500],
+  lifeLog:[],
+  stocks:[
+    {sym:'TECH',name:'TechVault',price:145,vol:.08,own:0},
+    {sym:'REALTY',name:'RealCo',price:78,vol:.04,own:0},
+    {sym:'CRYPTO',name:'CryptoX',price:420,vol:.25,own:0},
+    {sym:'ENERGY',name:'EnergyMax',price:52,vol:.06,own:0}
+  ],
+  assets:[
+    {id:'car1',name:'Tesla Model S',emoji:'🚗',price:85000,prestige:15,owned:false},
+    {id:'watch1',name:'Rolex Submariner',emoji:'⌚',price:12000,prestige:8,owned:false},
+    {id:'penthouse',name:'City Penthouse',emoji:'🏙️',price:1500000,prestige:50,owned:false},
+    {id:'jet',name:'Private Jet',emoji:'✈️',price:8000000,prestige:120,owned:false},
+    {id:'yacht',name:'Luxury Yacht',emoji:'🛥️',price:3500000,prestige:80,owned:false},
+    {id:'island',name:'Private Island',emoji:'🏝️',price:25000000,prestige:200,owned:false}
+  ],
+  jobs:[
+    {title:'Junior Analyst',company:'SmallCorp Inc.',income:28000,level:'Entry Level',xpNeed:1000},
+    {title:'Senior Analyst',company:'MidTier Corp',income:65000,level:'Mid Level',xpNeed:2000},
+    {title:'Director',company:'BigCo Industries',income:180000,level:'Senior',xpNeed:5000},
+    {title:'VP of Strategy',company:'Fortune 500 Co.',income:450000,level:'Executive',xpNeed:10000},
+    {title:'C-Suite Executive',company:'Global Corp',income:1200000,level:'C-Level',xpNeed:20000},
+    {title:'Founder & CEO',company:'Your Startup',income:5000000,level:'Founder',xpNeed:50000}
+  ],
+  events:[
+    {tag:'Opportunity',title:'Startup Investment',desc:'A former colleague offers you 15% of their AI startup for $10,000. It could be worth millions — or nothing.',choices:[
+      {text:'Invest $10,000 — take the risk',fn:'ev_invest_startup'},
+      {text:'Decline politely',fn:'ev_decline'},
+      {text:'Negotiate down to 5% for $3,000',fn:'ev_invest_small'}
+    ]},
+    {tag:'Career',title:'Headhunter Calling',desc:'A rival firm offers you a 40% salary bump to switch jobs. Your current boss will be furious.',choices:[
+      {text:'Accept the offer — loyalty is overrated',fn:'ev_job_switch'},
+      {text:'Use it as leverage for a raise',fn:'ev_negotiate_raise'},
+      {text:'Decline — you value loyalty',fn:'ev_decline_job'}
+    ]},
+    {tag:'Personal',title:'Health Scare',desc:'A routine checkup reveals elevated stress markers. The doctor recommends taking a break.',choices:[
+      {text:'Take a vacation — spend $5,000',fn:'ev_vacation'},
+      {text:'Push through — work is too important',fn:'ev_push_through'},
+      {text:'Adopt a healthier lifestyle',fn:'ev_healthy'}
+    ]},
+    {tag:'Investment',title:'Real Estate Opportunity',desc:'A distressed property is selling for 30% below market. Down payment needed: $50,000.',choices:[
+      {text:'Buy the property',fn:'ev_buy_property'},
+      {text:'Pass — not enough capital',fn:'ev_decline'},
+      {text:'Find investors to co-fund',fn:'ev_syndicate'}
+    ]},
+    {tag:'Scandal',title:'Viral Controversy',desc:'A social media post you made goes viral for the wrong reasons. Reputation on the line.',choices:[
+      {text:'Apologize publicly',fn:'ev_apologize'},
+      {text:'Ignore it — it will blow over',fn:'ev_ignore_scandal'},
+      {text:'Hire a PR firm for $15,000',fn:'ev_pr_firm'}
+    ]},
+    {tag:'Windfall',title:'Inheritance',desc:'A distant relative passes and leaves you $75,000. No strings attached.',choices:[
+      {text:'Invest it all in stocks',fn:'ev_invest_inheritance'},
+      {text:'Save it for real estate',fn:'ev_save_inheritance'},
+      {text:'Splurge on luxury — treat yourself',fn:'ev_splurge'}
+    ]}
+  ],
+  currentEvent:null,
+  achievements:[
+    {id:'first_k',name:'First Thousand',sub:'Reach $1,000 net worth',check:p=>p.wealth>=1000,done:true},
+    {id:'first_100k',name:'Six Figures',sub:'Reach $100,000 net worth',check:p=>p.wealth>=100000,done:false},
+    {id:'first_mil',name:'Millionaire',sub:'Reach $1,000,000 net worth',check:p=>p.wealth>=1000000,done:false},
+    {id:'ten_mil',name:'Decamillionaire',sub:'Reach $10,000,000 net worth',check:p=>p.wealth>=10000000,done:false},
+    {id:'billionaire',name:'Billionaire',sub:'Reach $1,000,000,000 net worth',check:p=>p.wealth>=1000000000,done:false},
+    {id:'first_promo',name:'On the Rise',sub:'Get your first promotion',check:p=>p.jobLevel>=1,done:false}
+  ],
+  actionsThisYear:[],
+  chart:null
+};
+
+function fmt(n){
+  if(n>=1e9) return '$'+(n/1e9).toFixed(2)+'B';
+  if(n>=1e6) return '$'+(n/1e6).toFixed(2)+'M';
+  if(n>=1e3) return '$'+(n/1e3).toFixed(1)+'K';
+  return '$'+Math.round(n).toLocaleString();
+}
+
+function showScreen(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+function selTrait(el,t){
+  document.querySelectorAll('.trait-card').forEach(c=>c.classList.remove('sel'));
+  el.classList.add('sel');
+  G._selTrait=t;
+}
+
+function selCountry(el,c){
+  document.querySelectorAll('.country-btn').forEach(b=>b.classList.remove('sel'));
+  el.classList.add('sel');
+  G._selCountry=c;
+}
+
+function startGame(){
+  const name=document.getElementById('inp-name').value.trim()||'Alex Morgan';
+  const age=parseInt(document.getElementById('inp-age').value);
+  G.player.name=name;
+  G.player.age=age;
+  G.player.year=2024-(18-age);
+  G.player.trait=G._selTrait||'genius';
+  G.player.country=G._selCountry||'USA';
+  if(G.player.trait==='genius'){G.player.intelligence=80;G.player.wealth=2500;}
+  else if(G.player.trait==='charismatic'){G.player.charisma=80;G.player.wealth=2500;}
+  else if(G.player.trait==='risk_taker'){G.player.wealth=1500;}
+  else if(G.player.trait==='athlete'){G.player.health=100;G.player.energy=100;G.player.wealth=2000;}
+  else if(G.player.trait==='heir'){G.player.wealth=150000;G.player.income=80000;G.player.jobLevel=1;}
+  initGame();
+  showScreen('s-game');
+}
+
+function quickStart(){
+  G.player.name='Demo Player';
+  G.player.age=18;
+  G.player.trait='genius';
+  G.player.country='USA';
+  initGame();
+  showScreen('s-game');
+}
+
+function initGame(){
+  updateHUD();
+  updateDash();
+  renderStocks();
+  renderAssets();
+  renderJobInfo();
+  pickEvent();
+  initChart();
+  addLog('Your journey begins. Age '+G.player.age+', '+G.player.country+'. Trait: '+G.player.trait+'.');
+}
+
+function updateHUD(){
+  const p=G.player;
+  document.getElementById('hud-name').textContent=p.name;
+  document.getElementById('hud-h').textContent=p.health;
+  document.getElementById('hud-hap').textContent=p.happiness;
+  document.getElementById('hud-e').textContent=p.energy;
+  document.getElementById('hud-iq').textContent=p.intelligence;
+  document.getElementById('hud-rep').textContent=p.reputation;
+  document.getElementById('hud-wealth').textContent=fmt(p.wealth);
+  document.getElementById('hud-age').textContent='Age '+p.age;
+  document.getElementById('bar-h').style.width=Math.max(0,p.health)+'%';
+  document.getElementById('bar-hap').style.width=Math.max(0,p.happiness)+'%';
+  document.getElementById('bar-e').style.width=Math.max(0,p.energy)+'%';
+}
+
+const repTiers=['Unknown','Local Figure','Connected','Industry Player','Celebrity','Icon','Legend'];
+const wealthTiers=[
+  [0,'Broke but hopeful'],[10000,'Working class hero'],[100000,'Middle class achiever'],
+  [500000,'Upper middle class'],[1000000,'Millionaire'],[10000000,'Multi-Millionaire'],
+  [100000000,'Centimillionaire'],[1000000000,'Billionaire']
+];
+
+function getWealthTier(w){
+  let t=wealthTiers[0][1];
+  for(let i=0;i<wealthTiers.length;i++){if(w>=wealthTiers[i][0])t=wealthTiers[i][1];}
+  return t;
+}
+
+function getRepTier(r){
+  if(r<50) return 'Unknown';
+  if(r<150) return 'Local Figure';
+  if(r<300) return 'Connected';
+  if(r<500) return 'Industry Player';
+  if(r<750) return 'Celebrity';
+  if(r<950) return 'Icon';
+  return 'Legend';
+}
+
+function updateDash(){
+  const p=G.player;
+  document.getElementById('d-wealth').textContent=fmt(p.wealth);
+  document.getElementById('d-tier').textContent=getWealthTier(p.wealth);
+  document.getElementById('d-income').textContent=fmt(p.income)+'/yr';
+  const job=G.jobs[Math.min(p.jobLevel,G.jobs.length-1)];
+  document.getElementById('d-job').textContent=job.title;
+  document.getElementById('d-rep').textContent=p.reputation;
+  document.getElementById('d-rep-tier').textContent=getRepTier(p.reputation);
+  document.getElementById('d-year').textContent=p.year;
+  document.getElementById('d-age-label').textContent='Age '+p.age;
+}
+
+function addLog(msg){
+  G.lifeLog.unshift({year:G.player.year,msg});
+  const el=document.getElementById('life-log');
+  el.innerHTML=G.lifeLog.slice(0,8).map(l=>`<div class="ef-item"><span>${l.year}</span>${l.msg}</div>`).join('');
+}
+
+function showToast(msg,positive=true){
+  const t=document.getElementById('toast');
+  t.innerHTML=msg;
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2500);
+}
+
+function showAchievement(ach){
+  const p=document.getElementById('ach-popup');
+  document.getElementById('ach-name').textContent=ach.name;
+  document.getElementById('ach-sub').textContent=ach.sub;
+  p.classList.add('show');
+  setTimeout(()=>p.classList.remove('show'),3500);
+}
+
+function checkAchievements(){
+  G.achievements.forEach(a=>{
+    if(!a.done&&a.check(G.player)){
+      a.done=true;
+      setTimeout(()=>showAchievement(a),500);
+    }
+  });
+}
+
+function renderStocks(){
+  const grid=document.getElementById('stocks-grid');
+  grid.innerHTML=G.stocks.map((s,i)=>{
+    const chg=(Math.random()>.5?1:-1)*(Math.random()*s.vol*100).toFixed(1);
+    const cls=chg>=0?'up':'dn';
+    const sign=chg>=0?'+':'';
+    return `<div class="inv-card" onclick="buyStock(${i})">
+      <div class="inv-name">${s.sym}</div>
+      <div style="font-size:.72rem;color:var(--t2)">${s.name}</div>
+      <div class="inv-price">$${s.price.toFixed(2)}</div>
+      <div class="inv-change ${cls}">${sign}${chg}%</div>
+      ${s.own>0?`<div class="inv-own">You own: ${s.own} shares</div>`:''}
+      <div style="font-size:.68rem;color:var(--t2);margin-top:.3rem">Tap to buy 1 share</div>
+    </div>`;
+  }).join('');
+}
+
+function buyStock(i){
+  const s=G.stocks[i];
+  if(G.player.wealth<s.price){showToast('Not enough cash!',false);return;}
+  G.player.wealth-=s.price;
+  s.own++;
+  showToast(`Bought 1 ${s.sym} @ $${s.price.toFixed(2)}`);
+  renderStocks();
+  updatePortfolio();
+  updateHUD();updateDash();
+}
+
+function updatePortfolio(){
+  const el=document.getElementById('portfolio-list');
+  const holdings=G.stocks.filter(s=>s.own>0);
+  if(!holdings.length){el.textContent='No holdings yet. Buy stocks above.';return;}
+  const total=holdings.reduce((a,s)=>a+s.price*s.own,0);
+  el.innerHTML=holdings.map(s=>`<div style="display:flex;justify-content:space-between;padding:.4rem 0;border-bottom:1px solid var(--glassb)">
+    <span>${s.sym} <span style="color:var(--t3)">×${s.own}</span></span>
+    <span style="color:var(--grn)">${fmt(s.price*s.own)}</span>
+  </div>`).join('')+`<div style="display:flex;justify-content:space-between;padding:.5rem 0;font-weight:600"><span>Total</span><span style="color:var(--grn)">${fmt(total)}</span></div>`;
+}
+
+function renderAssets(){
+  const el=document.getElementById('assets-list');
+  el.innerHTML=G.assets.map(a=>`<div class="asset-card">
+    <div class="asset-emoji">${a.emoji}</div>
+    <div class="asset-info">
+      <div class="asset-name">${a.name}</div>
+      <div class="asset-price">${fmt(a.price)} · +${a.prestige} prestige</div>
+      ${a.owned?'<div class="asset-owned">✓ Owned</div>':''}
+    </div>
+    ${!a.owned?`<button class="asset-buy" onclick="buyAsset('${a.id}')">Buy</button>`:'<span style="font-size:.7rem;color:var(--grn)">Owned</span>'}
+  </div>`).join('');
+}
+
+function buyAsset(id){
+  const a=G.assets.find(x=>x.id===id);
+  if(!a)return;
+  if(G.player.wealth<a.price){showToast('Need '+fmt(a.price)+' to buy this.',false);return;}
+  G.player.wealth-=a.price;
+  a.owned=true;
+  G.player.reputation+=a.prestige;
+  G.player.happiness=Math.min(100,G.player.happiness+10);
+  showToast(`Purchased ${a.name}! +${a.prestige} rep`);
+  addLog(`Bought ${a.name} for ${fmt(a.price)}.`);
+  renderAssets();updateHUD();updateDash();checkAchievements();
+}
+
+function renderJobInfo(){
+  const job=G.jobs[Math.min(G.player.jobLevel,G.jobs.length-1)];
+  document.getElementById('c-title').textContent=job.title;
+  document.getElementById('c-company').textContent=job.company+' · '+job.level;
+  const pct=Math.round((G.player.xp/job.xpNeed)*100);
+  document.getElementById('c-xp-fill').style.width=Math.min(100,pct)+'%';
+  document.getElementById('c-xp-label').textContent=G.player.xp.toLocaleString()+' / '+job.xpNeed.toLocaleString()+' XP';
+}
+
+function doAction(act){
+  const p=G.player;
+  const actions={
+    work_extra:{energy:-15,xp:150,income_mult:1.05,log:'Worked extra hours. +150 XP, small income boost.'},
+    network:{energy:-10,rep:8,charisma:2,log:'Networked aggressively. +8 rep, +2 charisma.'},
+    study:{cost:500,intelligence:5,xp:200,log:'Completed a professional course. +5 IQ, +200 XP.'},
+    startup:{cost:2000,fn:'try_startup',log:''},
+    invest_self:{cost:300,health:10,happiness:8,log:'Invested in health & wellness. +10 health, +8 happiness.'}
+  };
+  const a=actions[act];
+  if(!a)return;
+  if(a.cost&&p.wealth<a.cost){showToast('Not enough money!',false);return;}
+  if(a.energy&&p.energy+a.energy<0){showToast('Not enough energy!',false);return;}
+  if(a.fn==='try_startup'){tryStartup();return;}
+  if(a.cost) p.wealth-=a.cost;
+  if(a.energy) p.energy=Math.max(0,Math.min(100,p.energy+a.energy));
+  if(a.health) p.health=Math.min(100,p.health+a.health);
+  if(a.happiness) p.happiness=Math.min(100,p.happiness+a.happiness);
+  if(a.intelligence) p.intelligence=Math.min(100,p.intelligence+a.intelligence);
+  if(a.charisma) p.charisma=Math.min(100,p.charisma+a.charisma);
+  if(a.rep) p.reputation+=a.rep;
+  if(a.xp) p.xp+=a.xp;
+  if(a.income_mult) p.income=Math.round(p.income*a.income_mult);
+  G.actionsThisYear.push(act);
+  showToast(a.log);
+  addLog(a.log);
+  checkPromotion();renderJobInfo();updateHUD();updateDash();
+}
+
+function tryStartup(){
+  const p=G.player;
+  p.wealth-=2000;
+  const roll=Math.random()+(p.intelligence/200)+(p.trait==='risk_taker'?.15:0);
+  if(roll>.7){
+    const gain=Math.round(5000+Math.random()*45000);
+    p.wealth+=gain;p.xp+=500;p.reputation+=15;
+    showToast(`Side project took off! Earned ${fmt(gain)}! 🚀`);
+    addLog(`Side project success! Earned ${fmt(gain)}.`);
+  } else if(roll>.4){
+    p.wealth+=1500;
+    showToast('Project broke even. Got $1,500 back.');
+    addLog('Side project broke even.');
+  } else {
+    showToast('Project failed. Lost $2,000. Learn from it.',false);
+    addLog('Side project failed. $2,000 lost.');
+  }
+  G.actionsThisYear.push('startup');
+  renderJobInfo();updateHUD();updateDash();checkAchievements();
+}
+
+function checkPromotion(){
+  const p=G.player;
+  const job=G.jobs[Math.min(p.jobLevel,G.jobs.length-1)];
+  if(p.xp>=job.xpNeed&&p.jobLevel<G.jobs.length-1){
+    p.jobLevel++;
+    p.xp=0;
+    const newJob=G.jobs[p.jobLevel];
+    p.income=newJob.income;
+    p.reputation+=25;
+    p.happiness=Math.min(100,p.happiness+15);
+    showToast(`🎉 Promoted to ${newJob.title}! New salary: ${fmt(newJob.income)}/yr`);
+    addLog(`Promoted to ${newJob.title}! Salary: ${fmt(newJob.income)}/yr.`);
+    checkAchievements();
+  }
+}
+
+const evFns={
+  ev_invest_startup:(p)=>{if(p.wealth>=10000){p.wealth-=10000;p.xp+=300;const win=Math.random()>.4;if(win){const g=Math.round(50000+Math.random()*950000);p.wealth+=g;addLog(`Startup bet paid off! +${fmt(g)}`);showToast(`Startup went big! +${fmt(g)} 🎉`);}else{addLog('Startup investment failed. $10K lost.');showToast('Startup failed. $10,000 gone.',false);}}else{showToast('Need $10,000 to invest.',false);}},
+  ev_invest_small:(p)=>{if(p.wealth>=3000){p.wealth-=3000;const win=Math.random()>.5;if(win){const g=Math.round(20000+Math.random()*80000);p.wealth+=g;addLog(`Small startup bet returned ${fmt(g)}.`);showToast(`+${fmt(g)} from startup!`);}else{addLog('Small startup stake worthless.');showToast('Startup failed. -$3,000',false);}}else{showToast('Need $3,000.',false);}},
+  ev_job_switch:(p)=>{p.income=Math.round(p.income*1.4);p.xp+=200;addLog(`Switched jobs. New salary: ${fmt(p.income)}/yr.`);showToast(`New job! +40% salary → ${fmt(p.income)}/yr 💼`);},
+  ev_negotiate_raise:(p)=>{p.income=Math.round(p.income*1.15);p.reputation+=5;addLog(`Negotiated a 15% raise. Salary: ${fmt(p.income)}/yr.`);showToast(`Raise secured! +15% → ${fmt(p.income)}/yr`);},
+  ev_decline_job:(p)=>{p.reputation+=8;addLog('Declined headhunter. Loyalty noted.');showToast('+8 reputation for loyalty.');},
+  ev_vacation:(p)=>{if(p.wealth>=5000){p.wealth-=5000;p.health=Math.min(100,p.health+20);p.happiness=Math.min(100,p.happiness+25);addLog('Took a vacation. Health & happiness restored.');showToast('Refreshed! +20 health, +25 happiness ✈️');}else{showToast('Need $5,000 for vacation.',false);}},
+  ev_push_through:(p)=>{p.health=Math.max(0,p.health-15);p.xp+=300;addLog('Pushed through stress. -15 health, +300 XP.');showToast('Pushed through. -15 health but +300 XP.');},
+  ev_healthy:(p)=>{p.health=Math.min(100,p.health+10);p.energy=Math.min(100,p.energy+10);addLog('Adopted healthier habits.');showToast('+10 health, +10 energy from better habits.');},
+  ev_buy_property:(p)=>{if(p.wealth>=50000){p.wealth-=50000;p.reputation+=20;const ann=Math.round(5000+Math.random()*15000);p.income+=ann;addLog(`Bought property. +${fmt(ann)}/yr rental income.`);showToast(`Property acquired! +${fmt(ann)}/yr passive income 🏠`);}else{showToast('Need $50,000 for down payment.',false);}},
+  ev_syndicate:(p)=>{p.reputation+=10;p.xp+=200;addLog('Co-funded property. +10 rep, good deal.');showToast('Property syndicate formed. +10 rep.');},
+  ev_apologize:(p)=>{p.reputation=Math.max(0,p.reputation-5);addLog('Apologized publicly. Small rep hit but recovered.');showToast('-5 rep but crisis managed.');},
+  ev_ignore_scandal:(p)=>{p.reputation=Math.max(0,p.reputation-20);addLog('Ignored scandal. -20 reputation.');showToast('Scandal lingered. -20 reputation.',false);},
+  ev_pr_firm:(p)=>{if(p.wealth>=15000){p.wealth-=15000;p.reputation+=10;addLog('PR firm restored image. -$15K, +10 rep.');showToast('PR spin worked. +10 rep.');}else{showToast('Need $15,000.',false);}},
+  ev_invest_inheritance:(p)=>{p.wealth+=75000;p.xp+=200;addLog('Invested $75K inheritance. Good call.');showToast('$75,000 invested! Compound magic begins. 📈');},
+  ev_save_inheritance:(p)=>{p.wealth+=75000;addLog('Saved $75K inheritance.');showToast('$75,000 added to savings.');},
+  ev_splurge:(p)=>{p.wealth+=75000;const spend=Math.round(20000+Math.random()*30000);p.wealth-=spend;p.happiness=Math.min(100,p.happiness+20);addLog(`Splurged ${fmt(spend)}, kept the rest.`);showToast(`Treated yourself! +20 happiness.`);},
+  ev_decline:(p)=>{addLog('Passed on the opportunity.');showToast('You passed. Maybe next time.');}
+};
+
+function pickEvent(){
+  const pool=G.events;
+  G.currentEvent=pool[Math.floor(Math.random()*pool.length)];
+  renderEvent();
+}
+
+function renderEvent(){
+  const el=document.getElementById('event-panel');
+  if(!G.currentEvent){el.innerHTML='<div class="ev-placeholder">No events right now. Advance the year for new events.</div>';return;}
+  const e=G.currentEvent;
+  el.innerHTML=`<div class="event-modal">
+    <div class="ev-tag">${e.tag}</div>
+    <div class="ev-title">${e.title}</div>
+    <div class="ev-desc">${e.desc}</div>
+    <div class="ev-choices">${e.choices.map(c=>`<button class="ev-choice" onclick="resolveEvent('${c.fn}')">${c.text}</button>`).join('')}</div>
+  </div>`;
+}
+
+function resolveEvent(fn){
+  const f=evFns[fn];
+  if(f)f(G.player);
+  G.currentEvent=null;
+  renderEvent();
+  updateHUD();updateDash();checkAchievements();
+}
+
+function advanceYear(){
+  const p=G.player;
+  p.age++;p.year++;
+  const baseIncome=p.income;
+  const investReturn=G.stocks.reduce((a,s)=>a+s.price*s.own,0)*(.05+Math.random()*.1);
+  p.wealth+=baseIncome+investReturn;
+  G.stocks.forEach(s=>{const chg=1+((Math.random()>.45?1:-1)*s.vol*Math.random());s.price=parseFloat((s.price*chg).toFixed(2));});
+  if(p.trait==='genius') p.intelligence=Math.min(100,p.intelligence+1);
+  p.energy=Math.min(100,p.energy+20);
+  p.health=Math.max(0,p.health-2);
+  p.happiness=Math.max(0,Math.min(100,p.happiness+(Math.random()>.5?3:-3)));
+  if(G.actionsThisYear.includes('work_extra')) p.xp+=100;
+  checkPromotion();
+  G.wealthHistory.push(Math.round(p.wealth));
+  if(G.wealthHistory.length>15) G.wealthHistory.shift();
+  updateChart();
+  G.actionsThisYear=[];
+  pickEvent();
+  updateHUD();updateDash();updatePortfolio();renderStocks();renderAssets();renderJobInfo();checkAchievements();
+  addLog(`Year ${p.year} complete. Earned ${fmt(baseIncome)} in salary${investReturn>100?' + '+fmt(investReturn)+' from investments':''}.`);
+  switchTab('events',document.querySelector('.tab:nth-child(5)'));
+  showToast(`Year ${p.year} complete! Age ${p.age}.`);
+  if(p.age>=70&&p.wealth<1000000){showToast('Life is slipping away. Make bold moves!',false);}
+}
+
+function switchTab(id,el){
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.tab-content').forEach(c=>c.classList.remove('active'));
+  if(el)el.classList.add('active');
+  document.getElementById('tab-'+id).classList.add('active');
+}
+
+function initChart(){
+  const ctx=document.getElementById('wealthChart');
+  if(!ctx)return;
+  G.chart=new Chart(ctx,{
+    type:'line',
+    data:{labels:G.wealthHistory.map((_,i)=>''),datasets:[{data:G.wealthHistory,borderColor:'#D4AF37',borderWidth:1.5,pointRadius:0,fill:true,backgroundColor:'rgba(212,175,55,0.07)'}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{enabled:false}},scales:{x:{display:false},y:{display:false}}}
+  });
+}
+
+function updateChart(){
+  if(!G.chart)return;
+  G.chart.data.labels=G.wealthHistory.map((_,i)=>'');
+  G.chart.data.datasets[0].data=G.wealthHistory;
+  G.chart.update();
+}
+
+G._selTrait='genius';G._selCountry='USA';
+</script>

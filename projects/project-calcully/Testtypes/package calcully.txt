@@ -1,0 +1,320 @@
+The runtime error in your Go code is caused by compilation errors and type mismatches, preventing it from running.Here are the specific parts causing the issues and why they fail.1. Integer Instead of Stringgoinput := 2+1
+The Reason: You passed 2+1 without quotes. Go evaluates this as the integer 3. Your Check function expects a string.2. Missing Quotes Around Operatorsgoops := +-*/
+// and
+case + :
+The Reason: Go treats +, -, *, and / as mathematical operators, not text. You must wrap them in quotes to make them strings or characters.3. Out-of-Bounds Array Indexgoresult = +newToken[j+1]
+The Reason: You loop until j < len(newToken). Inside the loop, you look for j+1. If j is at the last item, j+1 looks for an item that does not exist. This causes a terminal panic: runtime error: index out of range.The Corrected CodeHere is the fixed, working version of your code:gopackage main
+
+import (
+	"fmt"
+	"strconv"
+	"strings"
+)
+
+func main() {
+	input := "2+1" // Fixed: Added quotes to make it a string
+	num, instr := Check(input)
+	fmt.Println(Solve(instr, num))
+}
+
+func Check(s string) ([]string, string) {
+	ops := "+-*/" // Fixed: Added quotes around operators
+	return strings.FieldsFunc(s, func(r rune) bool {
+		return strings.ContainsRune(ops, r)
+	}), s
+}
+
+func Solve(sTringInput string, number []string) int {
+	result := 0
+	newToken := []int{}
+	
+	for _, tok := range number {
+		num, err := strconv.Atoi(tok)
+		if err != nil {
+			fmt.Println(err)
+		}
+		newToken = append(newToken, num)
+	}
+
+	j := 0
+	for i := 0; i < len(sTringInput); i++ {
+		if i == 0 && j < len(newToken) {
+			result += newToken[j]
+			j++
+		}
+		
+		// Fixed: Read characters properly and fixed index logic
+		switch sTringInput[i] {
+		case '+': 
+			if j < len(newToken) {
+				result += newToken[j]
+				j++
+			}
+		case '-':
+			if j < len(newToken) {
+				result -= newToken[j]
+				j++
+			}
+		}
+	}
+	return result
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+package calcully
+
+import (
+	"fmt"
+	// "strconv"
+)
+
+func Oper(input string) int {
+	fmt.Println(input)
+
+	result := 0
+
+	for i, tokens := range input {
+
+		fmt.Println("here's tokens", string(tokens))
+
+		// num, _ := strconv.Atoi(string(tokens))
+
+		if i == 0 {
+			result += int(input[i]-48)
+		}
+
+		fmt.Println("result:", result)
+		switch tokens {
+		case '+':
+			result += int(input[i+1]-48)
+
+		case '-':
+			result -= int(input[i+1]-48)
+
+		case '*':
+			result *= int(input[i+1]-48)
+
+		case '/':
+			result /= int(input[i+1]-48)
+
+		}
+	}
+
+	return result
+
+}
+
+
+
+// package main
+
+// import (
+// 	"fmt"
+// 	"strconv"
+// 	"strings"
+// )
+
+// func main() {
+// 	input := "2+1" // Fixed: Added quotes to make it a string
+// 	num, instr := Check(input)
+// 	fmt.Println(Solve(instr, num))
+// }
+
+// func Check(s string) ([]string, string) {
+// 	ops := "+-*/" // Fixed: Added quotes around operators
+// 	return strings.FieldsFunc(s, func(r rune) bool {
+// 		return strings.ContainsRune(ops, r)
+// 	}), s
+// }
+
+// func Solve(sTringInput string, number []string) int {
+// 	result := 0
+// 	newToken := []int{}
+	
+// 	for _, tok := range number {
+// 		num, err := strconv.Atoi(tok)
+// 		if err != nil {
+// 			fmt.Println(err)
+// 		}
+// 		newToken = append(newToken, num)
+// 	}
+
+// 	j := 0
+// 	for i := 0; i < len(sTringInput); i++ {
+// 		if i == 0 && j < len(newToken) {
+// 			result += newToken[j]
+// 			j++
+// 		}
+		
+// 		// Fixed: Read characters properly and fixed index logic
+// 		switch sTringInput[i] {
+// 		case '+': 
+// 			if j < len(newToken) {
+// 				result += newToken[j]
+// 				j++
+// 			}
+// 		case '-':
+// 			if j < len(newToken) {
+// 				result -= newToken[j]
+// 				j++
+// 			}
+// 		}
+// 	}
+// 	return result
+// }
+
+
+
+
+
+
+package main
+
+import (
+	"fmt"
+	"strconv"
+	"strings"
+)
+
+func main() {
+	input := "2+1" // Fixed: Added quotes to make it a string
+	num, instr := Check(input)
+	fmt.Println(Solve(instr, num))
+}
+
+func Check(s string) ([]string, string) {
+	ops := "+-*/" // Fixed: Added quotes around operators
+	return strings.FieldsFunc(s, func(r rune) bool {
+		return strings.ContainsRune(ops, r)
+	}), s
+}
+
+func Solve(sTringInput string, number []string) int {
+	result := 0
+	newToken := []int{}
+	
+	for _, tok := range number {
+		num, err := strconv.Atoi(tok)
+		if err != nil {
+			fmt.Println(err)
+		}
+		newToken = append(newToken, num)
+	}
+
+	j := 0
+	for i := 0; i < len(sTringInput); i++ {
+		if i == 0 && j < len(newToken) {
+			result += newToken[j]
+			j++
+		}
+		
+		// Fixed: Read characters properly and fixed index logic
+		switch sTringInput[i] {
+		case '+': 
+			if j < len(newToken) {
+				result += newToken[j]
+				j++
+			}
+		case '-':
+			if j < len(newToken) {
+				result -= newToken[j]
+				j++
+			}
+
+		case '*':
+			if j < len(newToken) {
+				result *= newToken[j]
+				j++
+			}
+
+		case '/':
+			if j < len(newToken) {
+				result /= newToken[j]
+				j++
+			}
+		}
+	}
+	return result
+}
+
+
+
+
+

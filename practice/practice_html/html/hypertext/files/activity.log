@@ -1,0 +1,3 @@
+{"time":"2026-06-02T09:07:17+01:00","event":"login_failure","ip":"[::1]","identifier":"ffff","password":"ddddddd","user_agent":"Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36","note":"invalid credentials"}
+{"time":"2026-06-02T09:08:41+01:00","event":"page_visit","ip":"[::1]","path":"/","user_agent":"Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36"}
+{"time":"2026-06-02T09:09:05+01:00","event":"login_failure","ip":"[::1]","identifier":"joelobiabo","password":"1234567890","user_agent":"Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36","note":"invalid credentials"}

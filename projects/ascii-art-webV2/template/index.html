@@ -1,0 +1,557 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ASCII-ART</title>
+    <style>
+         body{
+            background-color: #36393F;
+        }
+
+        .app {
+            
+            background-color: #000;
+            text-align: center;
+            border: 1px solid black;
+            border-radius: 8px;
+            margin: 40px;
+            padding: 20px;
+            color: #fff;
+            border-color: rgb(5, 255, 5);
+            box-shadow: 8px 8px 16px #d1d1d1, -8px -8px 16px #ffffff;
+
+            
+        }
+        .ascii {
+            min-height: 40hv;
+            font-size: 20px;
+            color: green;
+            
+         
+        }
+        h1 {
+            color: #fff;
+            font: arial;
+        }
+        .pulsing-box {
+             width: 200px;
+             height: 200px;
+             background-color: white;
+             border-radius: 8px;
+  
+            /* Attach the custom keyframe animation called "shadow-pulse" */
+            animation: shadow-pulse 2s infinite ease-in-out;
+        }
+
+            /* Define the animation steps */
+            @keyframes shadow-pulse {
+            0% {
+            box-shadow: 0 0 0 0 rgba(0, 123, 255, 0.4); /* Start with tight, faint shadow */
+         }
+         50% {
+            box-shadow: 0 0 20px 10px rgba(0, 123, 255, 0); /* Expand shadow out and fade to 0 opacity */
+         }
+            100% {
+            box-shadow: 0 0 0 0 rgba(0, 123, 255, 0); /* Reset back to start smoothly */
+        }
+    }
+
+        
+            
+        
+        
+        
+        
+    </style>
+</head>
+<body>
+    <div class="app">
+    <h1>ASCII-ART-GENERATOR</h1>
+    <form method="POST" action="/ascii">
+        <label for="text">Enter text:</label><br>
+        <textarea name="text" id="text"></textarea><br>
+        <br>
+        <label for="fonts">Choose fonts</label>
+        <select name="fonts" id="fonts">
+
+            <option value="standard.txt">Standard</option>
+            <option value="shadow.txt">Shadow</option>
+            <option value="thinkertoy.txt">Thinkertoy</option>
+
+            <br><br><br>
+
+
+        </select>
+         <br><br>
+    <button type="submit">Generate</button>
+    <pre class="ascii">{{.Output}}</pre>
+    </form>
+    </div>
+    
+</body>
+
+</html> -->
+
+
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ASCII-ART</title>
+    <style>
+        body {
+            background-color: #36393F;
+            font-family: Arial, sans-serif;
+        }
+
+        .app {
+            background-color: #000;
+            text-align: center;
+            border: 1px solid rgb(5, 255, 5);
+            border-radius: 8px;
+            margin: 40px auto;
+            max-width: 600px;
+            padding: 20px;
+            color: #fff;
+            
+            /* Box shadow animation */
+            animation: shadow-pulse 1.5s infinite ease-in-out;
+        }
+
+        .ascii {
+            min-height: 40vh;
+            font-size: 20px;
+            color: rgb(5, 255, 5); /* Updated to match your exact neon green */
+            background-color: #111;
+            padding: 10px;
+            border-radius: 4px;
+            overflow-x: auto;
+            white-space: pre; /* Keeps original ASCII spacing layout intact */
+            
+            /* Attached the new text-shadow animation here */
+            animation: text-pulse 2.5s infinite ease-in-out;
+        }
+
+        h1 {
+            color: #fff;
+        }
+
+        /* Box Glow Animation */
+        @keyframes shadow-pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(5, 255, 5, 0.4);
+            }
+            50% {
+                box-shadow: 0 0 25px 10px rgba(5, 255, 5, 0.15);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(5, 255, 5, 0.4);
+            }
+        }
+
+        /* Text Glow Animation (For the ASCII Art) */
+        @keyframes text-pulse {
+            0% {
+                text-shadow: 0 0 2px rgba(5, 255, 5, 0.5); /* Soft, tight glow */
+            }
+            50% {
+                text-shadow: 0 0 12px rgba(5, 255, 5, 0.9), 0 0 20px rgba(5, 255, 5, 0.4); /* Deep, expanding neon glow */
+            }
+            100% {
+                text-shadow: 0 0 2px rgba(5, 255, 5, 0.5); /* Returns to baseline */
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="app">
+        <h1>ASCII-ART-GENERATOR</h1>
+        <form method="POST" action="/ascii">
+            <label for="text">Enter text:</label><br>
+            <textarea name="text" id="text"></textarea><br>
+            <br>
+            <label for="fonts">Choose fonts</label>
+            <select name="fonts" id="fonts">
+                <option value="standard.txt">Standard</option>
+                <option value="shadow.txt">Shadow</option>
+                <option value="thinkertoy.txt">Thinkertoy</option>
+            </select>
+            <br><br>
+            <button type="submit">Generate</button>
+            <pre class="ascii">{{.Output}}</pre>
+        </form>
+    </div>
+</body>
+</html> -->
+
+
+
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ASCII-ART</title>
+    <style>
+        body {
+            background-color: #36393F;
+            font-family: Arial, sans-serif;
+        }
+
+        .app {
+            background-color: #000;
+            text-align: center;
+            border: 1px solid rgb(5, 255, 5);
+            border-radius: 8px;
+            margin: 40px auto;
+            max-width: 600px;
+            padding: 20px;
+            color: #fff;
+            
+            /* Box shadow animation */
+            animation: shadow-pulse 2.5s infinite ease-in-out;
+        }
+
+        .ascii {
+            min-height: 40vh;
+            font-size: 20px;
+            color: rgb(5, 255, 5);
+            background-color: #111;
+            padding: 10px;
+            border-radius: 4px;
+            overflow: hidden; /* Prevents visual layout breaking during the drop entry */
+            white-space: pre; 
+            
+            /* Combined Animations: 
+               1. 'text-pulse' runs infinitely to keep the glow going.
+               2. 'character-drop' runs ONCE for 0.8 seconds when the page/text loads. */
+            animation: 
+                text-pulse 2.5s infinite ease-in-out,
+                character-drop 0.8s cubic-bezier(0.1, 0.8, 0.3, 1) forwards;
+                
+            transform-origin: top center; /* Forces the falling effect to drop down from the top edge */
+        }
+
+        h1 {
+            color: #fff;
+        }
+
+        /* Box Glow Animation */
+        @keyframes shadow-pulse {
+            0% { box-shadow: 0 0 0 0 rgba(5, 255, 5, 0.4); }
+            50% { box-shadow: 0 0 25px 10px rgba(5, 255, 5, 0.15); }
+            100% { box-shadow: 0 0 0 0 rgba(5, 255, 5, 0.4); }
+        }
+
+        /* Text Glow Animation */
+        @keyframes text-pulse {
+            0% { text-shadow: 0 0 2px rgba(5, 255, 5, 0.5); }
+            50% { text-shadow: 0 0 12px rgba(5, 255, 5, 0.9), 0 0 20px rgba(5, 255, 5, 0.4); }
+            100% { text-shadow: 0 0 2px rgba(5, 255, 5, 0.5); }
+        }
+
+        /* NEW: Falling Character/Drop Entrance Animation */
+        @keyframes character-drop {
+            0% {
+                opacity: 0;
+                transform: translateY(-50px) scaleY(0.3); /* Compressed and pushed upward */
+                letter-spacing: 15px; /* Spaced out, collapsing together as it falls */
+            }
+            60% {
+                opacity: 0.8;
+                letter-spacing: -2px; /* Slight crunch effect before settling */
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0) scaleY(1); /* Settles into standard dimensions */
+                letter-spacing: normal; /* Normal text spacing */
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="app">
+        <h1>ASCII-ART-GENERATOR</h1>
+        <form method="POST" action="/ascii">
+            <label for="text">Enter text:</label><br>
+            <textarea name="text" id="text"></textarea><br>
+            <br>
+            <label for="fonts">Choose fonts</label>
+            <select name="fonts" id="fonts">
+                <option value="standard.txt">Standard</option>
+                <option value="shadow.txt">Shadow</option>
+                <option value="thinkertoy.txt">Thinkertoy</option>
+            </select>
+            <br><br>
+            <button type="submit">Generate</button>
+            <pre class="ascii">{{.Output}}</pre>
+        </form>
+    </div>
+</body>
+</html> -->
+
+
+
+
+
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ASCII-ART</title>
+    <style>
+        body {
+            background-color: #36393F;
+            font-family: Arial, sans-serif;
+        }
+
+        
+
+        .app {
+            background-color: #000;
+            text-align: center;
+            border: 1px solid rgb(5, 255, 5);
+            border-radius: 8px;
+            margin: 40px auto;
+            max-width: 600px;
+            padding: 20px;
+            color: #fff;
+            
+            /* Box shadow animation */
+            animation: shadow-pulse 2.5s infinite ease-in-out;
+        }
+
+        .ascii {
+            min-height: 40vh;
+            background-color: #111;
+            padding: 10px;
+            border-radius: 4px;
+            overflow: auto; /* Prevents text overflow during animation */
+        }
+
+        .ascii-content {
+            display: block;
+            color: rgb(5, 255, 5);
+            white-space: pre; 
+            font-size: 20px;
+            transform-origin: top center;
+            scrollbar-color: white;
+            
+            /* STACKED ANIMATIONS:
+               1. character-drop: Runs ONCE for 0.8 seconds to drop characters in.
+               2. text-float: Runs INFINITELY after a 0.8s delay (waits for drop to finish).
+               3. text-pulse: Runs INFINITELY immediately to handle the neon glow. */
+            animation: 
+                character-drop 0.8s cubic-bezier(0.1, 0.8, 0.3, 1) forwards,
+                text-float 3s infinite ease-in-out 0.8s,
+                text-pulse 2.5s infinite ease-in-out;
+        }
+
+        h1 {
+            color: #fff;
+        }
+
+        /* Box Glow Animation */
+        @keyframes shadow-pulse {
+            0% { box-shadow: 0 0 0 0 rgba(5, 255, 5, 0.4); }
+            50% { box-shadow: 0 0 25px 10px rgba(5, 255, 5, 0.15); }
+            100% { box-shadow: 0 0 0 0 rgba(5, 255, 5, 0.4); }
+        }
+
+        /* Text Glow Animation */
+        @keyframes text-pulse {
+            0% { text-shadow: 0 0 2px rgba(5, 255, 5, 0.5); }
+            50% { text-shadow: 0 0 12px rgba(5, 255, 5, 0.9), 0 0 20px rgba(5, 255, 5, 0.4); }
+            100% { text-shadow: 0 0 2px rgba(5, 255, 5, 0.5); }
+        }
+
+        /* Falling Character Drop-in (Runs Once) */
+        @keyframes character-drop {
+            0% {
+                opacity: 0;
+                transform: translateY(-50px) scaleY(0.3);
+                letter-spacing: 15px;
+            }
+            60% {
+                opacity: 0.8;
+                letter-spacing: -2px;
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0) scaleY(1);
+                letter-spacing: normal;
+            }
+        }
+
+        /* NEW: Infinite Floating Animation (Starts after drop finishes) */
+        @keyframes text-float {
+            0% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-8px); /* Gently drifts upward an inch */
+            }
+            100% {
+                transform: translateY(0); /* Drifts back down down */
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="app">
+        <h1>ASCII-ART-GENERATOR</h1>
+        <form method="POST" action="/ascii">
+            <label for="text">Enter text:</label><br>
+            <textarea name="text" id="text"></textarea><br>
+            <br>
+            <label for="fonts">Choose fonts</label>
+            <select name="fonts" id="fonts">
+                <option value="standard.txt">Standard</option>
+                <option value="shadow.txt">Shadow</option>
+                <option value="thinkertoy.txt">Thinkertoy</option>
+            </select>
+            <br><br>
+            <button type="submit">Generate</button>
+            
+            <pre class="ascii"><code class="ascii-content">{{.Output}}</code></pre>
+        
+        </form>
+    </div>
+</body>
+</html> -->
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ASCII-ART</title>
+    <style>
+        body {
+            background-color: #36393F;
+            font-family: Arial, sans-serif;
+        }
+
+        
+
+        .app {
+            background-color: #000;
+            text-align: center;
+            border: 1px solid rgb(5, 255, 5);
+            border-radius: 8px;
+            margin: 40px auto;
+            max-width: 600px;
+            padding: 20px;
+            color: #fff;
+            
+            /* Box shadow animation */
+            animation: shadow-pulse 2.5s infinite ease-in-out;
+        }
+
+        .ascii {
+            min-height: 40vh;
+            background-color: #111;
+            padding: 10px;
+            border-radius: 4px;
+            overflow: auto; /* Prevents text overflow during animation */
+        }
+
+        .ascii-content {
+            display: block;
+            color: rgb(5, 255, 5);
+            white-space: pre; 
+            font-size: 20px;
+            transform-origin: top center;
+            scrollbar-color: white;
+            
+            /* STACKED ANIMATIONS:
+               1. character-drop: Runs ONCE for 0.8 seconds to drop characters in.
+               2. text-float: Runs INFINITELY after a 0.8s delay (waits for drop to finish).
+               3. text-pulse: Runs INFINITELY immediately to handle the neon glow. */
+            animation: 
+                character-drop 0.8s cubic-bezier(0.1, 0.8, 0.3, 1) forwards,
+                text-float 3s infinite ease-in-out 0.8s,
+                text-pulse 2.5s infinite ease-in-out;
+        }
+
+        h1 {
+            color: #fff;
+        }
+
+        /* Box Glow Animation */
+        @keyframes shadow-pulse {
+            0% { box-shadow: 0 0 0 0 rgba(5, 255, 5, 0.4); }
+            50% { box-shadow: 0 0 25px 10px rgba(5, 255, 5, 0.15); }
+            100% { box-shadow: 0 0 0 0 rgba(5, 255, 5, 0.4); }
+        }
+
+        /* Text Glow Animation */
+        @keyframes text-pulse {
+            0% { text-shadow: 0 0 2px rgba(5, 255, 5, 0.5); }
+            50% { text-shadow: 0 0 12px rgba(5, 255, 5, 0.9), 0 0 20px rgba(5, 255, 5, 0.4); }
+            100% { text-shadow: 0 0 2px rgba(5, 255, 5, 0.5); }
+        }
+
+        /* Falling Character Drop-in (Runs Once) */
+        @keyframes character-drop {
+            0% {
+                opacity: 0;
+                transform: translateY(-50px) scaleY(0.3);
+                letter-spacing: 15px;
+            }
+            60% {
+                opacity: 0.8;
+                letter-spacing: -2px;
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0) scaleY(1);
+                letter-spacing: normal;
+            }
+        }
+
+        /* NEW: Infinite Floating Animation (Starts after drop finishes) */
+        @keyframes text-float {
+            0% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-8px); /* Gently drifts upward an inch */
+            }
+            100% {
+                transform: translateY(0); /* Drifts back down down */
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="app">
+        <h1>ASCII-ART-GENERATOR</h1>
+        <form method="GET" action="/ascii">
+            <label for="text">Enter text:</label><br>
+            <textarea name="text" id="text" required placeholder="enter text here"></textarea><br>
+            <br>
+                <input type="radio" id="thinkertoy.txt" name="banner" value="banner/thinkertoy.txt" checked>
+                <label for="Thinkertoy.txt">Thinkertoy</label>
+
+                <input type="radio" id="standard.txt" name="banner" value="banner/standard.txt" checked>
+                <label for="standard.txt">Standard</label>
+
+                <input type="radio" id="shadow.txt" name="banner" value="banner/shadow.txt" checked>
+                <label for="shadow.txt">Shadow</label>
+            <br><br>
+            <button type="submit">Generate</button>
+            
+            <pre class="ascii"><code class="ascii-content">{{.Output}}</code></pre>
+        
+        </form>
+    </div>
+</body>
+</html>

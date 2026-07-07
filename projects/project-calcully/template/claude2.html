@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kasio Calculator</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+            padding: 20px 0;
+            background-color: #f0f2f5;
+        }
+
+        .calculator-container {
+            width: 360px;
+            background: #ffffff;
+            border: 3px solid #1a1a1a;
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .brand-name {
+            text-align: center;
+            font-size: 50px;
+            font-family: Arial, Helvetica, sans-serif;
+            font-weight: 800;
+            color: #555;
+        }
+
+        .calculator-display {
+            border: 2px solid #222;
+            border-radius: 8px;
+            background-color: #e2ebe9;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 120px;
+        }
+
+        .calculator-display .expression {
+            font-size: 1rem;
+            color: #555;
+            text-align: right;
+            word-break: break-all;
+            min-height: 1.2rem;
+        }
+
+        .calculator-display .result {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #111;
+            text-align: right;
+        }
+
+        form { width: 100%; }
+
+        .calculator-keypad {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .btn {
+            padding: 15px 5px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border: 1px solid #b0b0b0;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.15s ease, transform 0.05s ease;
+        }
+
+        .btn:active { transform: scale(0.97); }
+
+        .num { background-color: #ffffff; color: #333333; }
+        .num:hover { background-color: #f7f7f7; }
+
+        .func { background-color: #7f8c8d; color: #ffffff; font-size: 0.95rem; }
+        .func:hover { background-color: #6c7a7b; }
+
+        .op { background-color: #3498db; color: #ffffff; }
+        .op:hover { background-color: #2980b9; }
+
+        .clear-btn { background-color: #e74c3c; color: white; }
+        .clear-btn:hover { background-color: #c0392b; }
+
+        .plus-btn { grid-column: span 3; padding: 18px; font-size: 1.4rem; }
+
+        .navigation-pad {
+            grid-column: span 2;
+            grid-row: span 2;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-template-rows: repeat(3, 1fr);
+            gap: 4px;
+            background: #eaeded;
+            border-radius: 50%;
+            padding: 6px;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .navigation-pad button {
+            background-color: #5d6d7e;
+            color: #ffffff;
+            border: none;
+            border-radius: 6px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            height: 100%;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.15s ease;
+        }
+
+        .navigation-pad button:hover { background-color: #4b5866; }
+
+        .navigation-pad button:nth-child(1) { grid-column: 2; grid-row: 1; }
+        .navigation-pad button:nth-child(2) { grid-column: 1; grid-row: 2; }
+        .navigation-pad button:nth-child(3) { grid-column: 2; grid-row: 2; background-color: #47525e; }
+        .navigation-pad button:nth-child(4) { grid-column: 3; grid-row: 2; }
+        .navigation-pad button:nth-child(5) { grid-column: 2; grid-row: 3; }
+    </style>
+</head>
+<body>
+
+    <div class="calculator-container">
+        <div class="brand-name">Kasio</div>
+
+        <form method="POST" action="/">
+            <input type="hidden" name="expression" id="hidden-expression">
+
+            <div class="calculator-display">
+                <div class="expression" id="expression-display">{{.Input}}</div>
+                <div class="result">{{.Result}}</div>
+            </div>
+
+            <div class="calculator-keypad">
+
+                <button type="button" class="btn func" onclick="append('shift')">Shift</button>
+                <button type="button" class="btn func" onclick="append('m²(')">m²</button>
+                <button type="button" class="btn func" onclick="append('sqrt(')">√</button>
+                <button type="button" class="btn func" onclick="append('off')">on/off</button>
+
+                <button type="button" class="btn func" onclick="append('sin(')">sin</button>
+
+                <div class="navigation-pad">
+                    <button type="button" onclick="append('▲')">▲</button>
+                    <button type="button" onclick="append('◀')">◀</button>
+                    <button type="button" onclick="append('●')">●</button>
+                    <button type="button" onclick="append('▶')">▶</button>
+                    <button type="button" onclick="append('▼')">▼</button>
+                </div>
+
+                <button type="button" class="btn func" onclick="append('tan(')">tan</button>
+
+                <button type="button" class="btn func" onclick="append('cos(')">cos</button>
+                <button type="button" class="btn func" onclick="append('log(')">log</button>
+
+                <button type="button" class="btn num" onclick="append('7')">7</button>
+                <button type="button" class="btn num" onclick="append('8')">8</button>
+                <button type="button" class="btn num" onclick="append('9')">9</button>
+                <button type="button" class="btn func" onclick="append(')')">( )</button>
+
+                <button type="button" class="btn num" onclick="append('4')">4</button>
+                <button type="button" class="btn num" onclick="append('5')">5</button>
+                <button type="button" class="btn num" onclick="append('6')">6</button>
+                <button type="button" class="btn op"  onclick="append('÷')">÷</button>
+
+                <button type="button" class="btn num" onclick="append('1')">1</button>
+                <button type="button" class="btn num" onclick="append('2')">2</button>
+                <button type="button" class="btn num" onclick="append('3')">3</button>
+                <button type="button" class="btn op"  onclick="append('×')">×</button>
+
+                <button type="button" class="btn num" onclick="append('0')">0</button>
+                <button type="button" class="btn num" onclick="append('.')">.</button>
+                <button type="submit" class="btn op">=</button>
+                <button type="button" class="btn op"  onclick="append('-')">-</button>
+
+                <button type="button" class="btn op plus-btn" onclick="append('+')">+</button>
+                <button type="button" class="btn clear-btn" onclick="clearDisplay()">C</button>
+
+            </div>
+        </form>
+
+    </div>
+
+<script>
+    const display = document.getElementById('expression-display');
+    const hidden  = document.getElementById('hidden-expression');
+
+    function append(val) {
+        display.textContent += val;
+        hidden.value = display.textContent;
+    }
+
+    function clearDisplay() {
+        display.textContent = '';
+        hidden.value = '';
+    }
+</script>
+
+</body>
+</html>

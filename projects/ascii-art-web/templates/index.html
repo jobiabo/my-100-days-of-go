@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ASCII Art Generator</title>
+    <style>
+        body{
+            background-color: blue;
+        }
+        h1 {
+            text-decoration: aqua;
+            color: bisque;
+        }
+        label {
+            color: bisque;
+        }
+        pre {
+            color: bisque;
+        }
+       
+    </style>
+    
+</head>
+
+<body>
+    
+    <h1>ASCII Art Generator</h1>
+
+    <form method="POST" action="/ascii">
+        <label for="text">Enter Text:</label><br>
+        <textarea name="text" id="text" rows="5" cols="40" required></textarea><br><br>
+
+        <label for="font">Choose Font:</label>
+        <select name="font" id="font">
+            <option value="standard.txt">Standard</option>
+            <option value="shadow.txt">Shadow</option>
+            <option value="thinkertoy.txt">Thinkertoy</option>
+        </select><br><br>
+
+        <button type="submit">Generate ASCII Art</button>
+    </form>
+
+    <pre id="output">{{.AsciiArt}}></pre>
+</body>
+</html>

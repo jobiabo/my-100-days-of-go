@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Handdrawn Calculator Frontend</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+    <style>
+        /* Core resetting and centering */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #f0f2f5; /* Light grey canvas */
+}
+
+/* Calculator Frame matching your drawn boundaries */
+.calculator-container {
+    width: 360px;
+    background: #ffffff;
+    border: 3px solid #1a1a1a;
+    border-radius: 16px;
+    padding: 20px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Display Screen mimicking the classic LCD sketch box */
+.calculator-display {
+    border: 2px solid #222;
+    border-radius: 8px;
+    background-color: #e2ebe9; /* Retro LCD digital tint */
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 120px;
+}
+
+.expression {
+    font-size: 1.5rem;
+    color: #555;
+    text-align: left;
+}
+
+.result {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #111;
+    text-align: right;
+}
+
+/* The Grid system mapping out the layout */
+.calculator-keypad {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+}
+
+/* Base button styling */
+.btn {
+    padding: 15px 5px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    border: 1px solid #b0b0b0;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.15s ease, transform 0.05s ease;
+}
+
+.btn:active {
+    transform: scale(0.97);
+}
+
+/* Color Coding based on button types */
+.num {
+    background-color: #ffffff;
+    color: #333333;
+}
+.num:hover {
+    background-color: #f7f7f7;
+}
+
+.func {
+    background-color: #7f8c8d;
+    color: #ffffff;
+    font-size: 0.95rem;
+}
+.func:hover {
+    background-color: #6c7a7b;
+}
+
+.arrow {
+    background-color: #5d6d7e; /* Darker hue for navigational arrow buttons */
+}
+
+.op {
+    background-color: #3498db;
+    color: #ffffff;
+}
+.op:hover {
+    background-color: #2980b9;
+}
+
+/* Makes the standalone plus button span all 4 columns at the bottom */
+.plus-btn {
+    grid-column: span 4;
+    padding: 18px;
+    font-size: 1.4rem;
+}
+    </style>
+<body>
+
+    <div class="calculator-container">
+        <div class="calculator-display">
+            <div class="expression">2 + 3 + 11</div>
+            <div class="result">16</div>
+        </div>
+
+        <div class="calculator-keypad">
+            <button class="btn func">Shift</button>
+            <button class="btn func">m²</button>
+            <button class="btn func">on/off</button>
+            <button class="btn func arrow">▲</button>
+
+            <button class="btn func">sin</button>
+            <button class="btn func">cos</button>
+            <button class="btn func">tan</button>
+            <button class="btn func arrow">▼</button>
+
+            <button class="btn func">log</button>
+            <button class="btn func arrow">◀</button>
+            <button class="btn func arrow">▶</button>
+            <button class="btn func">√</button>
+
+            <button class="btn num">7</button>
+            <button class="btn num">8</button>
+            <button class="btn num">9</button>
+            <button class="btn func">( )</button>
+
+            <button class="btn num">4</button>
+            <button class="btn num">5</button>
+            <button class="btn num">6</button>
+            <button class="btn op">÷</button>
+
+            <button class="btn num">1</button>
+            <button class="btn num">2</button>
+            <button class="btn num">3</button>
+            <button class="btn op">×</button>
+
+            <button class="btn num">0</button>
+            <button class="btn num">.</button>
+            <button class="btn op">=</button>
+            <button class="btn op">-</button>
+
+            <button class="btn op plus-btn">+</button>
+        </div>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Facebook – UI Mockup</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: #f0f2f5;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── Main layout ── */
+    .page-wrapper {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 20px;
+    }
+
+    .content {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 32px;
+      max-width: 980px;
+      width: 100%;
+    }
+
+    /* ── Left column ── */
+    .left-col {
+      flex: 1;
+      max-width: 490px;
+      padding-bottom: 60px;
+    }
+
+    .fb-logo {
+      color: #1877f2;
+      font-size: 60px;
+      font-weight: 800;
+      letter-spacing: -2px;
+      line-height: 1;
+      margin-bottom: 20px;
+    }
+
+    .tagline {
+      font-size: 26px;
+      line-height: 32px;
+      color: #1c1e21;
+      font-weight: 400;
+    }
+
+    /* ── Right column / Card ── */
+    .right-col {
+      width: 396px;
+      flex-shrink: 0;
+    }
+
+    .card {
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,.1), 0 8px 16px rgba(0,0,0,.1);
+      padding: 20px;
+    }
+
+    .card input[type="text"],
+    .card input[type="password"] {
+      width: 100%;
+      border: 1px solid #dddfe2;
+      border-radius: 6px;
+      font-size: 17px;
+      padding: 14px 16px;
+      outline: none;
+      margin-bottom: 12px;
+      color: #1c1e21;
+      transition: border-color .15s;
+    }
+
+    .card input:focus {
+      border-color: #1877f2;
+      box-shadow: 0 0 0 2px rgba(24,119,242,.2);
+    }
+
+    .card input::placeholder { color: #90949c; }
+
+    .btn-login {
+      width: 100%;
+      background: #1877f2;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      font-size: 20px;
+      font-weight: 700;
+      padding: 14px;
+      cursor: pointer;
+      transition: background .15s;
+      margin-bottom: 16px;
+    }
+
+    .btn-login:hover { background: #166fe5; }
+    .btn-login:active { background: #1464d8; }
+
+    .forgot-link {
+      display: block;
+      text-align: center;
+      color: #1877f2;
+      font-size: 14px;
+      text-decoration: none;
+      margin-bottom: 20px;
+    }
+    .forgot-link:hover { text-decoration: underline; }
+
+    .divider {
+      border: none;
+      border-top: 1px solid #dadde1;
+      margin-bottom: 20px;
+    }
+
+    .btn-create {
+      display: block;
+      width: fit-content;
+      margin: 0 auto;
+      background: #42b72a;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      font-size: 17px;
+      font-weight: 700;
+      padding: 12px 16px;
+      cursor: pointer;
+      transition: background .15s;
+    }
+
+    .btn-create:hover { background: #36a420; }
+    .btn-create:active { background: #2b9117; }
+
+    /* ── Page for Facebook link ── */
+    .page-for {
+      margin-top: 24px;
+      text-align: center;
+      font-size: 14px;
+      color: #1c1e21;
+    }
+    .page-for a { color: #1877f2; text-decoration: none; font-weight: 600; }
+    .page-for a:hover { text-decoration: underline; }
+
+    /* ── Footer ── */
+    footer {
+      padding: 20px;
+      font-size: 12px;
+      color: #90949c;
+      text-align: center;
+      border-top: 1px solid #dadde1;
+    }
+
+    footer .footer-links {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 6px 12px;
+      margin-bottom: 10px;
+    }
+
+    footer .footer-links a {
+      color: #90949c;
+      text-decoration: none;
+    }
+    footer .footer-links a:hover { text-decoration: underline; }
+
+    footer .copyright { color: #bec3c9; }
+
+    /* ── Responsive ── */
+    @media (max-width: 760px) {
+      .content { flex-direction: column; gap: 24px; }
+      .left-col { max-width: 396px; text-align: center; padding-bottom: 0; }
+      .right-col { width: 100%; max-width: 396px; }
+      .tagline { font-size: 20px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="page-wrapper">
+    <div class="content">
+
+      <!-- Left -->
+      <div class="left-col">
+        <div class="fb-logo">facebook</div>
+        <p class="tagline">Connect with friends and the world around you on Facebook.</p>
+      </div>
+
+      <!-- Right -->
+      <div class="right-col">
+        <div class="card">
+          <input type="text"     placeholder="Email address or phone number" autocomplete="username" />
+          <input type="password" placeholder="Password"                      autocomplete="current-password" />
+          <button class="btn-login">Log in</button>
+          <a class="forgot-link" href="#">Forgotten password?</a>
+          <hr class="divider" />
+          <button class="btn-create">Create new account</button>
+        </div>
+
+        <p class="page-for">
+          <a href="#">Create a Page</a> for a celebrity, brand or business.
+        </p>
+      </div>
+
+    </div>
+  </div>
+
+  <footer>
+    <nav class="footer-links">
+      <a href="#">English (UK)</a><a href="#">हिन्दी</a><a href="#">اردو</a>
+      <a href="#">Français (France)</a><a href="#">Deutsch</a><a href="#">Español</a>
+      <a href="#">Português (Brasil)</a><a href="#">Italiano</a><a href="#">العربية</a>
+      <a href="#">हिन्दी</a>
+    </nav>
+    <nav class="footer-links">
+      <a href="#">Sign Up</a><a href="#">Log in</a><a href="#">Messenger</a>
+      <a href="#">Facebook Lite</a><a href="#">Video</a><a href="#">Places</a>
+      <a href="#">Games</a><a href="#">Marketplace</a><a href="#">Meta Pay</a>
+      <a href="#">Meta Store</a><a href="#">Meta Quest</a><a href="#">Instagram</a>
+      <a href="#">Threads</a><a href="#">Fundraisers</a><a href="#">Services</a>
+      <a href="#">Voting Information Centre</a><a href="#">Privacy Policy</a>
+      <a href="#">Privacy Centre</a><a href="#">Groups</a><a href="#">About</a>
+      <a href="#">Create ad</a><a href="#">Create Page</a><a href="#">Developers</a>
+      <a href="#">Careers</a><a href="#">Cookies</a><a href="#">AdChoices</a>
+      <a href="#">Terms</a><a href="#">Help</a><a href="#">Contact Uploading &amp; Non-Users</a>
+      <a href="#">Settings</a><a href="#">Activity log</a>
+    </nav>
+    <p class="copyright">Meta © 2024 · <em>UI Reference Mockup — Not affiliated with Meta</em></p>
+  </footer>
+
+</body>
+</html>
